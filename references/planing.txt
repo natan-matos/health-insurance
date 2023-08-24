@@ -1,0 +1,42 @@
+## PLANEJAMENTO DA SOLUÇÃO ##
+
+#Problema
+Uma empresa de seguros de saúde quer aumentar seus lucros, vendendo um novo produto para os clientes já existentes na sua base. Os atuais clienstes já compraram um seguro de saúde. O novo produto é um seguro para carros.6
+Foi realizada uma pesquisa com uma amostra da base, para descobrir quais clientes estão interessado em comprar um novo seguro. 
+
+O objetivo do projeto é criar uma lista ordenada pela propensão de compra dos clientes em adiquirir o novo seguro.
+
+# CRISP-DS
+1. Coleta de dados
+   	1.1 Split Train & Test
+2. Descrição dos dados
+   	2.1 Data Dimensions
+  	2.2 Data types
+   	2.3 Check NA
+   	2.4 Fillout NA
+   	2.5 Change Astype
+   	2.6 Descriptive Statistics
+3. Feature Engineering
+4. Filtragem de Variáveis
+5. EDA
+   	5.1 Univariate
+   	5.2 Biratiate (Hypothesis Validation)
+6. Data Preparation
+   	6.1 Rescaling
+   	6.2 Encoding
+   	6.3 Transformation
+7. Feature Selection
+   	7.1 Split Train & Validation
+   	7.2 Feature Selection
+   		- Boruta
+		- Feature Importance
+8. ML Modeling
+   	8.1 Average Model
+   	8.2 Test Models
+   	8.3 Performance Comparation
+   	8.4 Cross Validation
+9. Fine Tuning
+	9.1 Random Search
+	9.2 Bayesian Search
+10. Tradução e Interpretação do Erro
+11. Modelo em Produção
