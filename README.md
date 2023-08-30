@@ -2,37 +2,36 @@
 
 Projeto de Regressão
 
-## 1. Business Problem
+## 1. Context
 
-Uma empresa de seguros automotivo
+Uma Seguradora de veículos criou um novo produto, um Seguro de Saúde, e deseja oferecer para sua base já existente de clientes. Uma pequena amostra da base foi usada para fazer a primeira oferta e coletar dados de interesse dos clientes nesta campanha de Cross-sell.
 
-Rossmann é uma das maiores redes de farmácias na Europa, com mais de 3,000 lojas em vários países. Este projeto teve início em uma competição no Kaggle, levantado pela própria Rossmann, em 2015. O objetivo principal é realizar a previsão do total de vendas para cada uma das 1115 lojas nas próximas 6 semanas.
+Como a base de clientes é muito grande, e a empresa possui multiplos canais de comunicação, encontrar a forma mais efetiva de contactar os clientes pode se traduzir em uma enorme enconomia nas campanhas de comunicação.
 
-Como parte da disciplina 'Data Science em Produção', da Comunidade DS, foi adicionado um contexto ficcional, descrito abaixo, para agregar mais intensidade ao projeto.
+Construir um modelo para prever se um cliente estaria interessado em Seguro de Saúde é extremamente útil para a empresa, pois ela pode planejar sua estratégia de comunicação para alcançar esses clientes e otimizar seu modelo de negócios e receita.
 
-> Vocẽ é cientista de dados na Rossmann. Após a reunião mensal dos gerentes de lojas com o CFO da empresa, foi pedido a eles uma previsão de vendas para as próximas 6 semenas. Foi estipulado um tempo de 15 dias para que os gerentes apresentem o resultado. Como o tempo é muito curto, eles decidiram pedir ajuda para o time de Data Science da empresa.
-> Após conversar com o CFO, para entender a raiz do problema e descobrir se uma previsão realmente é a melhor solução, você descobriu que a empresa vai entrar em processo de expansão. Como parte do planejamento, foi decidido que a renda das próximas 6 semanas será usadas como investimento para a expansão. Além disso ele te pediu para criar alguma forma de visualização que ele e os gerentes de lojas pudessem acessar facilmente a qualquer momento.
+> Após conversar com o time de marketing, foi decidido que uma lista de clientes, ordenada pela sua propensão de compra, seria a melhor solução. Pois assim pode ser dada prioridade aos clientes com maior chance de compra.
 
 | Problema | Causa Raiz | Questão principal |
 | --- | --- | --- |
-| Quanto dinheiro haverá disponível | Expansão da empresa | Qual será o total de vendas nas próximas 6 semanas? |
+| Quais clientes estão mais propensos a comprar? | Aumentar a receita da empresa | Como ordenar os clientes por propensão de compra |
 
 ## 2. Suposições de Negócio
-- Considerei que a variável 'customer' é uma variável indisponível. Ela possui alta correlação com as vendas, mas não tenho acesso a previsão do número de clientes para as próximas semanas.
-- Lojas com dados de 'competition_distance' indisponíveis são consideradas como não tendo competidores.
-- Algumas lojas têm concorrêntes próximos, mas não têm o dado 'competition_since_month/year'. Irei considerar essa data como data de vendas mais antiga.
-- Não são considerados dias vendas iguais a 0 ou loja fechada. 
+
+- Considerei os valores apresentados como sendo em dolar americano.
+- Por não ter dados suficientes, considerei que não há clientes na base com mais de 1 ano na empresa
+- O tipo de canal de vendas é desconhecido, tendo disponível um número em sua representação.
+- Outras informações importantes para a avaliação de um seguro não estão disponíveis no dataset original, assim que algumas análises podem ser limitadas. 
 
 
 ## 3. Desenvolvimento da Solução
+
 ### 3.1. Produto Final
-- Um reporte em csv com as previsões de todas as lojas.
-- Bot no Telegram acessado por API
+- Um reporte em csv com os clientes ordenados pela propensão de compra.
 
 ### 3.2. Ferramentas
 - Python, Jupyter Notebook, VS Code
-- Render
-- Telegram, API Flask
+- Scikit-lear
 - Git, Github
 
 ### 3.3. Processo
@@ -54,11 +53,11 @@ O processo de solução do projeto é baseado na metodologia CRISP-DM, que é a 
     
 # 4. Coleta de Dados
 
-- **Dataset foi coletado no Kaggle: [clique aqui](https://www.kaggle.com/competitions/rossmann-store-sales/overview)**
+- **Dataset foi coletado no Kaggle: [clique aqui](https://www.kaggle.com/datasets/anmolkumar/health-insurance-cross-sell-prediction)**
     
-	O Dataset contêm dados histórcios de vendas de 1,115 lojas, algumas das quais foram fechadas temporariamente para reforma.
+	O Dataset contém dados de 342 mil clientes, contendo informação básicas e a resposta à oferta de cross-sell.
     
-- **O dataset contêm 19 atributos**
+- **O dataset contêm 12 atributos**
     
 ## 5. Top 3 Insights
 
@@ -66,84 +65,98 @@ O processo de solução do projeto é baseado na metodologia CRISP-DM, que é a 
 
 Algumas hipóteses de negócio foram levantadas, para serem validadas ou não. No total foram levantadas 12 hipóteses, e dentro delas aqui estão os 3 top insights retirados da análise de dados e validação das hipoteses.
 
-| Insight 01 - Lojas com competidores mais próximos vendem mais |
+| **Insight 01 - Proprietário de veículos mais novos contratam mais seguro** |
 | --- |
 | <img src="img/competition_distane.png" style="zoom:60%;" /> |
 
-| **Insight 02 - Lojas com competidores há mais tempo vendem menos** |
+| **Insight 02 - Pessoas mais velhas deveriam contratar mais que jovens** |
 | --- |
 | <img src="img/competition-time.png" style="zoom:60%;" /> | 
 
-| **Insight 03 - Lojas com promoçõe ativas por mais tempo tendem a vender menos** | 
+| **Insight 03 - Mulheres pagam mais caro pelos seguros** | 
 | --- |
 | <img src="img/promo-time.png" style="zoom:60%;" /> | 
 
 
 # 6. Modelo de Machine Learnig Aplicado
 
-Depois de modelar os dados usando as técnicas de encoding e nature transformation, o Boruta foi usado para selecionar as melhores features para o modelo. Aqui está a seleção das features mais relevantes para o modelo:
+Depois de modelar os dados usando as técnicas de encoding e rescaling e standardizarion, escolhir por usar o Feature Importance para selecionar as variáveis mais relevantes para o modelo. Aqui está a seleção das features mais relevantes para o modelo:
 
-['store','promo','store_type','assortment','competition_distance','competition_open_since_month','competition_open_since_year','promo2','promo2_since_week','promo2_since_year','competition_time_month','promo_time_week','day_of_week_sin','day_of_week_cos','month_sin','month_cos','day_sin','day_cos','week_of_year_sin','week_of_year_cos'']
+['vintage', 'annual_premium', 'age', 'policy_sales_channel', 'vehicle_damage', 'previously_insured']
 
-Em total, foram testados e comparados 5 modelos:
-* Média
-* Regressão Linear
-* Regressão Linear Regularizada
+Em total, foram testados e comparados 6 modelos:
+* Naive Bayes
+* KNN
 * Random Forest
-* XGBoost
+* Gradient Boosting
+* Logistc Regression
+* Neural Network
 
-Para encontrar a real performance, foi usada a técnica de cross validation para séries temporáis, já que tempo é uma variável importante no nosso problema. Para isso, apenas as últimas 6 semanas foram separadas para test, e o resto dos dados foi separado em 5 partes para serem usados para treino e teste de forma que não fossem usados dados futuros para as previsões.
+A métrica escolhida para medir a performance dos modelos foi o Recall at K. Essa é uma variação do recall, em que é medida a performance do modelo até a k-ésima linha do dataset. Para fim de exemplificar, k foi definido em 20000. 
 
 <img src="img/model_performance.png" style="zoom:100%;" />
 
-Após o cross validation, essas são as performances reais dos modelos:
+Outra forma de conseguir ver melhor a performance dos modelos é a curva de ganho acumulado. Este gráfico mostra na linha laranja o total acumulado de classificações positivas (interessados no seguro) e a porcentagem da base. Observe que com 40% da base conseguimos atingir quase 100% dos interesados no produto. A linha pontilhada no gráfico mostra o modelo aleatório de escolha.
 
-<img src="img/corss-validation.png" align="center" style="zoom:10%;" />
+<img src="img/model_performance.png" style="zoom:100%;" />
 
-A média de vendas foi usada como medida de base para previsão. Isso nos permite ter um valor base para comprar outros modelos mais complexos. Como pode ser visto, os modelos lineares tiveram uma performance inferior à média. Isso mostra que o fenômeno que buscamos modelar aqui é complexo e não linear.
-Uma observação deve ser feira. Apesar de a Random Forest ter performado melhor, o modelo escolhido foi o XGBoost. A razão para isso é que o modelo gerado pela Random Forest pode ser muito grande, ocupando muito espaço em memória, gerando problemas no momento do deploy.
+
+Os modelos Gradient Boosting, Rede Neural e KNN tiveram um performance bastante similar, tanto na curva acumulada como no recall at k. Por questões de desempenho computacional o modelo escolhido foi o Gradient Boosting.
 
 
 # 7. Performance do Modelo & Fine Tunnig
 
-Para encontrar os melhores parâmetros para treinar o modelo escolhido, foi usada uma Random Forest. Em futuros ciclos do CRISP-DM novos hiperparâmetros podem ser testados, para melhorar ainda mais a performance do modelo de Machine Learning. Após o modelo XGBoost ser treinado novamente com os hiperparâmetros encontrados, consegui chegar a performance final do modelo.
+Para encontrar os melhores parametros para treinar o modelo, eu escolhi usar a técnica de Random Search. Essa técnica se basa em definir um espaço de valores para cada parametro do modelo, e testar de maneira aleatória cada combindação possível até encontrar a combinação que aprensenta a melhor performance.
 
-<img src="img/fina-model-xgboost.png" align="center" style="zoom:100%;" />
+Ao fim do processo, estes foram os melhores parametros encontrados pela busca.
+
+{'n_estimators': 500,
+ 'min_samples_split': 2,
+ 'min_samples_leaf': 4,
+ 'max_depth': 7,
+ 'loss': 'exponential',
+ 'learning_rate': 0.1,
+ 'criterion': 'friedman_mse'}
+ 
 
 
 # 8. Deployment
 
-Neste ponto o modelo já está pronto para ir para produção e ser disponibilizado para o usuário final. O forma como este produto será entregue é um bot no telegram, onde o usuário insere o número de loja, e recebe as previsões de vendas para as próximas 6 semanas somadas.
+Neste ponto o modelo já está pronto para ser treinado com os parametros escolhidos e as melhores features selecionadas. Ao fim do processo o modelo já está pronto para realizar predições com novos dados. 
 
-Aqui você pode ver o funcionamento da API:
+Testando o modelo final com novos dados desconhecidos, ele apresentou boas métricas de avaliação.
+
+<img src="img/telegram-bot.gif" align="center" style="zoom:100%;" />
+
+<img src="img/telegram-bot.gif" align="center" style="zoom:100%;" />
+
+No gráfico abaixo mostra a Lift Curve do modelo, que mostra quantas vezes o Modelo treinado é melhor que o método aletório.
 
 <img src="img/telegram-bot.gif" align="center" style="zoom:100%;" />
 
 # 9. Resultados de Negócio
 
-Uma parte importante de qualquer projeto de Data Science é traduzir os perfomance em resultados reais de negócio. Para este projeto, MAE (Mean Absolute Error), foi a métrica escolhida para explicar em valores reais a performance do modelo de Machine Learning. As previsões têm uma margem de erro, para mais ou para menos. 
+Uma parte importante de qualquer projeto de Data Science é traduzir os perfomance em resultados reais de negócio. Para este projeto, Recall At K foi a métrica escolhida para avaliar o modelo. O objetivo é desta métrica é saber em qual porcentagem da base conseguimos alcançar a maior parte, ou a totalidade dos clientes interessados no novo produto.
 
-Segue abaixo uma tablea, levando em consideração a margem de erro do modelo, apresentando assim o melhor e pior cenário da previsão de vendas.
-
+Algumas pesquisas mostraram que o custo médio para entrar em contato com cada cliente gira em torno aos $3.5, podendo ser muito maior, dependendo do canal escolhido para contado. Usando este número como referencia, o gráfico abaixo mostra o custo para atingir 90% dos clientes interessados no Seguro de Saúde. A barra azul mostra o custo usando o modelo tradicional aleatório, e a barra vermelha mostra o custo usando a ordenação feita pelo algoritmo de Machine Learnig.
 
 <img src="img/scenarios.png" align="center" style="zoom:100%;" />
 
+Usanso a lista de clientes ordenada pelo algoritmo, a economia para a empresa é de $675,318,70 em despesas de comunicação com os clientes. Isso é uma redução de 63.5% nos custos de marketn.
+
 # 10. Conclusão
 
-Após analizar os resultados conseguidos com o algorítmo, fica claro que o XGBoost é muito mais preciso em relação ao modelo que era usado anteriormente. O fenômeno que analisei neste projeto é complexo, envolvendo vários fatores que afetam as vendas. Foi necessário adaptar todo o projeto para este problema de série temporal.
+Este projeto apresentou um tipo diferente de problema de classificação, conhecido como Learning to Rank. O objetivo principal não é classificar os clientes como compradores ou não, mas sim ordena-los pela propensão de compra. Esse tipo de algoritmo geralmente é usado em mecanismos de recomendação e motores de busca, como Google e Bing.
 
-Algumas lojas, como pode ser viso to gráfico abaixo, são mais dificeis para fazer a predição. Seria necessário um outro projeto dedicado somente ao tratamento destes outliers. Um novo ciclo do CRISP-DM poderia ser dedicado a isso.
-<img src="img/prediction-final.png" align="center" style="zoom:100%;" />
+O modelo resultou em uma enorme economia para a empresa nos gastos com comunicação com os cliente. Também seria possível criar um projeto para prever a receita resultante das vendas do novo seguro para a base ordenada, mas não é o foco aqui.
 
-
-Aqui vemos a soma da predição de todas as lojas nas próximas 6 semana. Isso dá ao CFO uma visão muito mais clara que quanto dinheiro ele tem diponível para investir na expansão das lojas, dando mais segurança se for preciso recorrer a empréstimos bancários para dar inicio as obras.
+Sendo, na média, 2.5 vezes melhor que o modelo tradicional aleatório, o altoritmo é uma excelente ferramenta para otimizar os processos dentro da empresa.
 
 <img src="img/totalp-predictions.png" align="center" style="zoom:100%;" />
 
 # 11. Próximos passos
 
-- Procure dados externos como clima, eventos nacionais, indicadores macroeconomicos, entre outros.
 - Derivar novas features no processo de feature engineering.
 - Experimente o método de busca bayesiana na etapa de fine tunnig.
-- Adicionar gráfico e tabelas ao bot do telegram.
+
 
