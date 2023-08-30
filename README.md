@@ -111,7 +111,7 @@ Para encontrar os melhores parametros para treinar o modelo, eu escolhi usar a t
 
 Ao fim do processo, estes foram os melhores parametros encontrados pela busca.
 
-{'n_estimators': 500,
+> {'n_estimators': 500,
  'min_samples_split': 2,
  'min_samples_leaf': 4,
  'max_depth': 7,
