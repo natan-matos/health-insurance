@@ -38,7 +38,7 @@ Construir um modelo para prever se um cliente estaria interessado em Seguro de S
 O processo de solução do projeto é baseado na metodologia CRISP-DM, que é a sigla apra Cross Industry Process - Data Mining. É uma metodologia ágil que fornece uma estrutura robusta para planejamento de projetos de Machine Learning. Funciona como um processo cíclico, focado em entrega incremental a cada novo ciclo.
 
 
-<img src="img/crisp-dm.png" style="zoom:100%;" />
+<img src="src/visualization/crisp-dm.png" style="zoom:100%;" />
 
 * **Passo 01:** Descrição dos Dados: limpeza e descrição estatistica dos dados, afim de encontrar erros e comportamentos incomuns.
 * **Passo 02:** Feature engineering: derivação de novas features, para modelar melhor o fenômeno.
@@ -67,15 +67,16 @@ Algumas hipóteses de negócio foram levantadas, para serem validadas ou não. N
 
 | **Insight 01 - Proprietário de veículos mais novos contratam mais seguro** |
 | --- |
-| <img src="img/competition_distane.png" style="zoom:60%;" /> |
+| <img src="src/visualization/vehicle_age.png" style="zoom:60%;" /> |
 
 | **Insight 02 - Pessoas mais velhas deveriam contratar mais que jovens** |
 | --- |
-| <img src="img/competition-time.png" style="zoom:60%;" /> | 
+| <img src="src/visualization/age.png" style="zoom:60%;" /> | 
 
 | **Insight 03 - Mulheres pagam mais caro pelos seguros** | 
 | --- |
-| <img src="img/promo-time.png" style="zoom:60%;" /> | 
+| <img src="src/visualization/gender_response.png" style="zoom:60%;" /> | 
+| <img src="src/visualization/gender_premmium.png" style="zoom:60%;" /> | 
 
 
 # 6. Modelo de Machine Learnig Aplicado
@@ -94,11 +95,11 @@ Em total, foram testados e comparados 6 modelos:
 
 A métrica escolhida para medir a performance dos modelos foi o Recall at K. Essa é uma variação do recall, em que é medida a performance do modelo até a k-ésima linha do dataset. Para fim de exemplificar, k foi definido em 20000. 
 
-<img src="img/model_performance.png" style="zoom:100%;" />
+<img src="src/visualization/metrics.png" style="zoom:100%;" />
 
 Outra forma de conseguir ver melhor a performance dos modelos é a curva de ganho acumulado. Este gráfico mostra na linha laranja o total acumulado de classificações positivas (interessados no seguro) e a porcentagem da base. Observe que com 40% da base conseguimos atingir quase 100% dos interesados no produto. A linha pontilhada no gráfico mostra o modelo aleatório de escolha.
 
-<img src="img/model_performance.png" style="zoom:100%;" />
+<img src="src/visualization/cumulative_gain_1.png" style="zoom:100%;" />
 
 
 Os modelos Gradient Boosting, Rede Neural e KNN tiveram um performance bastante similar, tanto na curva acumulada como no recall at k. Por questões de desempenho computacional o modelo escolhido foi o Gradient Boosting.
@@ -126,13 +127,13 @@ Neste ponto o modelo já está pronto para ser treinado com os parametros escolh
 
 Testando o modelo final com novos dados desconhecidos, ele apresentou boas métricas de avaliação.
 
-<img src="img/telegram-bot.gif" align="center" style="zoom:100%;" />
+<img src="src/visualization/cumulative_gain_final.png" align="center" style="zoom:100%;" />
 
-<img src="img/telegram-bot.gif" align="center" style="zoom:100%;" />
+<img src="src/visualization/final_metrics.png" align="center" style="zoom:100%;" />
 
 No gráfico abaixo mostra a Lift Curve do modelo, que mostra quantas vezes o Modelo treinado é melhor que o método aletório.
 
-<img src="img/telegram-bot.gif" align="center" style="zoom:100%;" />
+<img src="src/visualization/lift_curve_final.png" align="center" style="zoom:100%;" />
 
 # 9. Resultados de Negócio
 
@@ -140,7 +141,7 @@ Uma parte importante de qualquer projeto de Data Science é traduzir os perfoman
 
 Algumas pesquisas mostraram que o custo médio para entrar em contato com cada cliente gira em torno aos $3.5, podendo ser muito maior, dependendo do canal escolhido para contado. Usando este número como referencia, o gráfico abaixo mostra o custo para atingir 90% dos clientes interessados no Seguro de Saúde. A barra azul mostra o custo usando o modelo tradicional aleatório, e a barra vermelha mostra o custo usando a ordenação feita pelo algoritmo de Machine Learnig.
 
-<img src="img/scenarios.png" align="center" style="zoom:100%;" />
+<img src="src/visualization/values.png" align="center" style="zoom:100%;" />
 
 Usanso a lista de clientes ordenada pelo algoritmo, a economia para a empresa é de $675,318,70 em despesas de comunicação com os clientes. Isso é uma redução de 63.5% nos custos de marketn.
 
@@ -151,8 +152,6 @@ Este projeto apresentou um tipo diferente de problema de classificação, conhec
 O modelo resultou em uma enorme economia para a empresa nos gastos com comunicação com os cliente. Também seria possível criar um projeto para prever a receita resultante das vendas do novo seguro para a base ordenada, mas não é o foco aqui.
 
 Sendo, na média, 2.5 vezes melhor que o modelo tradicional aleatório, o altoritmo é uma excelente ferramenta para otimizar os processos dentro da empresa.
-
-<img src="img/totalp-predictions.png" align="center" style="zoom:100%;" />
 
 # 11. Próximos passos
 
