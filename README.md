@@ -1,6 +1,6 @@
-# Previsão de Vendas Lojas Rossmann
+# Classificação por Propensão de compra
 
-Projeto de Regressão
+Projeto de Learning to Rank
 
 ## 1. Context
 
