@@ -4,9 +4,9 @@ Projeto de Learning to Rank
 
 ## 1. Context
 
-Uma Seguradora de veículos criou um novo produto, um Seguro de Saúde, e deseja oferecer para sua base já existente de clientes. Uma pequena amostra da base foi usada para fazer a primeira oferta e coletar dados de interesse dos clientes nesta campanha de Cross-sell.
+Uma Seguradora de veículos criou um novo produto, um Seguro de Saúde e deseja oferecer para sua base já existente de clientes. Uma pequena amostra da base foi usada para fazer a primeira oferta e coletar dados de interesse dos clientes nesta campanha de Cross-sell.
 
-Como a base de clientes é muito grande, e a empresa possui multiplos canais de comunicação, encontrar a forma mais efetiva de contactar os clientes pode se traduzir em uma enorme enconomia nas campanhas de comunicação.
+Como a base de clientes é muito grande e a empresa possui multiplos canais de comunicação, encontrar a forma mais efetiva de contactar os clientes pode se traduzir em uma enorme enconomia nas campanhas de comunicação.
 
 Construir um modelo para prever se um cliente estaria interessado em Seguro de Saúde é extremamente útil para a empresa, pois ela pode planejar sua estratégia de comunicação para alcançar esses clientes e otimizar seu modelo de negócios e receita.
 
@@ -81,11 +81,11 @@ Algumas hipóteses de negócio foram levantadas, para serem validadas ou não. N
 
 # 6. Modelo de Machine Learnig Aplicado
 
-Depois de modelar os dados usando as técnicas de encoding e rescaling e standardizarion, escolhir por usar o Feature Importance para selecionar as variáveis mais relevantes para o modelo. Aqui está a seleção das features mais relevantes para o modelo:
+Depois de modelar os dados usando as técnicas de encoding e rescaling e standardizarion, optei por usar o Feature Importance para selecionar as variáveis mais relevantes para o modelo. Aqui está a seleção delas:
 
 ['vintage', 'annual_premium', 'age', 'policy_sales_channel', 'vehicle_damage', 'previously_insured']
 
-Em total, foram testados e comparados 6 modelos:
+No total, foram testados e comparados 6 modelos:
 * Naive Bayes
 * KNN
 * Random Forest
@@ -93,7 +93,7 @@ Em total, foram testados e comparados 6 modelos:
 * Logistc Regression
 * Neural Network
 
-A métrica escolhida para medir a performance dos modelos foi o Recall at K. Essa é uma variação do recall, em que é medida a performance do modelo até a k-ésima linha do dataset. Para fim de exemplificar, k foi definido em 20000. 
+A métrica escolhida para medir a performance dos modelos foi o 'Recall at K'. Essa é uma variação do Recall tradicional, em que é medida a performance do modelo até a k-ésima linha do dataset. Para fim de exemplificar, k foi definido em 20000. 
 
 <img src="src/visualization/metrics.png" style="zoom:100%;" />
 
@@ -107,7 +107,7 @@ Os modelos Gradient Boosting, Rede Neural e KNN tiveram um performance bastante 
 
 # 7. Performance do Modelo & Fine Tunnig
 
-Para encontrar os melhores parametros para treinar o modelo, eu escolhi usar a técnica de Random Search. Essa técnica se basa em definir um espaço de valores para cada parametro do modelo, e testar de maneira aleatória cada combindação possível até encontrar a combinação que aprensenta a melhor performance.
+Para encontrar os melhores parametros para treinar o modelo, eu escolhi usar a técnica de Random Search. Essa técnica se baseia em definir um espaço de valores para cada parametro do modelo e testar de maneira aleatória cada combinação possível até encontrar a que aprensente a melhor performance.
 
 Ao fim do processo, estes foram os melhores parametros encontrados pela busca.
 
@@ -137,25 +137,25 @@ No gráfico abaixo mostra a Lift Curve do modelo, que mostra quantas vezes o Mod
 
 # 9. Resultados de Negócio
 
-Uma parte importante de qualquer projeto de Data Science é traduzir os perfomance em resultados reais de negócio. Para este projeto, Recall At K foi a métrica escolhida para avaliar o modelo. O objetivo é desta métrica é saber em qual porcentagem da base conseguimos alcançar a maior parte, ou a totalidade dos clientes interessados no novo produto.
+Uma parte importante de qualquer projeto de Data Science é traduzir a perfomance em resultados reais de negócio. Para este projeto, Recall At K foi a métrica escolhida para avaliar o modelo. O objetivo desta métrica é saber em qual porcentagem da base de clientes conseguimos alcançar a maior parte ou a totalidade dos clientes interessados no novo produto.
 
-Algumas pesquisas mostraram que o custo médio para entrar em contato com cada cliente gira em torno aos $3.5, podendo ser muito maior, dependendo do canal escolhido para contado. Usando este número como referencia, o gráfico abaixo mostra o custo para atingir 90% dos clientes interessados no Seguro de Saúde. A barra azul mostra o custo usando o modelo tradicional aleatório, e a barra vermelha mostra o custo usando a ordenação feita pelo algoritmo de Machine Learnig.
+Algumas pesquisas mostraram que o custo médio para entrar em contato com cada cliente gira em torno a $3.5, podendo ser muito maior, dependendo do canal escolhido para contato. Usando este número como referência, o gráfico abaixo mostra o custo para atingir 90% dos clientes interessados no Seguro de Saúde. A barra azul mostra o custo usando o modelo tradicional aleatório e a barra vermelha mostra o custo usando a ordenação feita pelo algoritmo de Machine Learnig.
 
 <img src="src/visualization/values.png" align="center" style="zoom:100%;" />
 
-Usanso a lista de clientes ordenada pelo algoritmo, a economia para a empresa é de $675,318,70 em despesas de comunicação com os clientes. Isso é uma redução de 63.5% nos custos de marketn.
+Usando a lista de clientes ordenada pelo algoritmo, a economia para a empresa é de $675,318,70 em despesas de comunicação com os clientes. Isso é uma redução de 63.5% nos custos de marketing.
 
 # 10. Conclusão
 
-Este projeto apresentou um tipo diferente de problema de classificação, conhecido como Learning to Rank. O objetivo principal não é classificar os clientes como compradores ou não, mas sim ordena-los pela propensão de compra. Esse tipo de algoritmo geralmente é usado em mecanismos de recomendação e motores de busca, como Google e Bing.
+Este projeto apresentou um tipo diferente de problema de Classificação, conhecido como Learning to Rank. O objetivo principal é ordenar os clientes pela propensão de compra, em uma lista da maior probabilidade para a menor. Esse tipo de algoritmo geralmente é usado em mecanismos de recomendação e motores de busca, como Google e Bing.
 
 O modelo resultou em uma enorme economia para a empresa nos gastos com comunicação com os cliente. Também seria possível criar um projeto para prever a receita resultante das vendas do novo seguro para a base ordenada, mas não é o foco aqui.
 
-Sendo, na média, 2.5 vezes melhor que o modelo tradicional aleatório, o altoritmo é uma excelente ferramenta para otimizar os processos dentro da empresa.
+Sendo, na média, 2.5 vezes melhor que o modelo tradicional aleatório, o algoritmo é uma excelente ferramenta para otimizar os processos dentro da empresa.
 
 # 11. Próximos passos
 
 - Derivar novas features no processo de feature engineering.
-- Experimente o método de busca bayesiana na etapa de fine tunnig.
+- Experimentar o método de busca bayesiana na etapa de fine tunnig.
 
 
